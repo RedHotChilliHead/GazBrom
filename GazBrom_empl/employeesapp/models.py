@@ -10,3 +10,4 @@ class Employee(models.Model):
     date_of_empl = models.DateTimeField(null=False, blank=True)
     salary = models.DecimalField(default=0, max_digits=8, decimal_places=2)
     chief = models.CharField(max_length=150)
+    hierarchy = models.IntegerField(default=6, null=False)
