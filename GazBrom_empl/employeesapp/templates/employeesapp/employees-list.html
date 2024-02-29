@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+        Employees list
+        {% endblock %}
+    </title>
+</head>
+<body>
+{% block body %}
+    <h1>Employees:</h1>
+    {% if not employees %}
+        <h3>No employees yet</h3>
+    {% else %}
+        <ul>
+            {% for employee in employees %}
+                <li>
+                    <div>
+                        <p>Name: {{ employee.name }}</p>
+                        <p>Position: {{ employee.price }}</p>
+                        <p>Date of employee: {{employee.date_of_empl}}</p>
+                        <p>Salary: {{employee.salary}}</p>
+                        <p>Chief: {{employee.chief}}</p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
+</body>
+</html>
