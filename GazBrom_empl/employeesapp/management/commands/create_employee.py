@@ -76,12 +76,13 @@ class Command(BaseCommand):  # добавление команды, вып-й ч
 
         # сотрудники 4 уровня
         eall = Employee.objects.all()
-        for i in range(3):
+        e3_list = []
+        for i in range(7):
             name = random.choice(first_names) + " " + random.choice(last_names)
             for e in eall:
-                if e.position in position_names3:
-                    chief4 = e.name
-                    break
+                if e.hierarchy == 3:
+                    e3_list += [e]
+            chief4 = random.choice(e3_list).name
             empl, created = Employee.objects.get_or_create(name=name,
                                                            position=random.choice(position_names4),
                                                            date_of_empl=random_date(),
@@ -91,12 +92,13 @@ class Command(BaseCommand):  # добавление команды, вып-й ч
 
         # сотрудники 5 уровня
         eall = Employee.objects.all()
-        for i in range(5):
+        e4_list = []
+        for i in range(10):
             name = random.choice(first_names) + " " + random.choice(last_names)
             for e in eall:
-                if e.position in position_names4:
-                    chief5 = e.name
-                    break
+                if e.hierarchy == 4:
+                    e4_list += [e]
+            chief5 = random.choice(e4_list).name
             empl, created = Employee.objects.get_or_create(name=name,
                                                            position=random.choice(position_names5),
                                                            date_of_empl=random_date(),
