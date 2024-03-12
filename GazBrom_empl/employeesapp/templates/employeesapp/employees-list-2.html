@@ -1,0 +1,124 @@
+{% extends "employeesapp/base.html" %}
+
+{% block title %}
+    Employees list
+{% endblock %}
+
+{% block body %}
+    <div class="fixed-container">
+        <h1>Hierarchy:</h1>
+        {% if not employees1 %}
+            <h3>No employees yet</h3>
+        {% else %}
+            <ul class="list-group">
+                {% for employee1 in employees1 %}
+                    <div class="examples">
+                        <div>
+                            <li class="list-group-item">
+                                <p><a href="{% url 'employeesapp:employee_details' pk=employee1.pk %}">Name: {{ employee1.name }}</a></p>
+                                <p>Position: {{ employee1.position }}</p>
+                                <p>Chief: {{ employee1.chief }}</p>
+                                <p>Hierarchy: {{ employee1.hierarchy }}</p>
+                            </li>
+                        </div>
+                        <div>{% if not employee1.photo %}
+                            <p><img src="/media/images/nobody.jpg"></p>
+                        {% else %}
+                            <p><img src="{{ employee1.photo.url }}"></p>
+                        {% endif %}
+                        </div>
+                    </div>
+                    <ul class="list-group container-offset">
+                        {% for employee2 in employees2 %}
+                            <div class="examples">
+                                <div>
+                                    <li class="list-group-item">
+                                        <p><a href="{% url 'employeesapp:employee_details' pk=employee2.pk %}">Name: {{ employee2.name }}</a></p>
+                                        <p>Position: {{ employee2.position }}</p>
+                                        <p>Chief: {{ employee2.chief }}</p>
+                                        <p>Hierarchy: {{ employee2.hierarchy }}</p>
+                                    </li>
+                                </div>
+                                <div>{% if not employee2.photo %}
+                                    <p><img src="/media/images/nobody.jpg"></p>
+                                {% else %}
+                                    <p><img src="{{ employee2.photo.url }}"></p>
+                                {% endif %}
+                                </div>
+                            </div>
+                            <ul class="list-group container-offset">
+                                {% for employee3 in employees3 %}
+                                    {% if employee3.chief ==  employee2.name %}
+                                        <div class="examples">
+                                            <div>
+                                                <li class="list-group-item">
+                                                    <p><a href="{% url 'employeesapp:employee_details' pk=employee3.pk %}">Name: {{ employee3.name }}</a></p>
+                                                    <p>Position: {{ employee3.position }}</p>
+                                                    <p>Chief: {{ employee3.chief }}</p>
+                                                    <p>Hierarchy: {{ employee3.hierarchy }}</p>
+                                                </li>
+                                            </div>
+                                            <div>{% if not employee3.photo %}
+                                                <p><img src="/media/images/nobody.jpg"></p>
+                                            {% else %}
+                                                <p><img src="{{ employee3.photo.url }}"></p>
+                                            {% endif %}
+                                            </div>
+                                        </div>
+                                        <ul class="list-group container-offset">
+                                            {% for employee4 in employees4 %}
+                                                {% if employee4.chief ==  employee3.name %}
+                                                    <div class="examples">
+                                                        <div>
+                                                            <li class="list-group-item">
+                                                                <p><a href="{% url 'employeesapp:employee_details' pk=employee4.pk %}">Name: {{ employee4.name }}</a></p>
+                                                                <p>Position: {{ employee4.position }}</p>
+                                                                <p>Chief: {{ employee4.chief }}</p>
+                                                                <p>Hierarchy: {{ employee4.hierarchy }}</p>
+                                                            </li>
+                                                        </div>
+                                                        <div>{% if not employee4.photo %}
+                                                            <p><img src="/media/images/nobody.jpg"></p>
+                                                        {% else %}
+                                                            <p><img src="{{ employee4.photo.url }}"></p>
+                                                        {% endif %}
+                                                        </div>
+                                                    </div>
+                                                    <ul class="list-group container-offset">
+                                                        {% for employee5 in employees5 %}
+                                                            {% if employee5.chief ==  employee4.name %}
+                                                                <div class="examples">
+                                                                    <div>
+                                                                        <li class="list-group-item">
+                                                                            <p><a href="{% url 'employeesapp:employee_details' pk=employee5.pk %}">Name: {{ employee5.name }}</a></p>
+                                                                            <p>Position: {{ employee5.position }}</p>
+                                                                            <p>Chief: {{ employee5.chief }}</p>
+                                                                            <p>Hierarchy: {{ employee5.hierarchy }}</p>
+                                                                        </li>
+                                                                    </div>
+                                                                    <div>{% if not employee5.photo %}
+                                                                        <p><img src="/media/images/nobody.jpg"></p>
+                                                                    {% else %}
+                                                                        <p><img src="{{ employee5.photo.url }}"></p>
+                                                                    {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+    {#    <div>#}
+    {#        <a href={% url 'employeesapp:upload-photo' %}>Upload a photo</a>#}
+    {#    </div>#}
+{% endblock %}

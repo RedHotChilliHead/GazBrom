@@ -1,0 +1,27 @@
+{% extends "employeesapp/base.html" %}
+
+{% block title %}
+    Employee #{{ Employee.pk }}
+{% endblock %}
+
+{% block body %}
+    <div class="fixed-container">
+        <h1>Employee <strong>{{ Employee.name }}</strong></h1>
+        <div>
+            <p>Position: {{ Employee.position }}</p>
+            <p>Date of employment: {{ Employee.date_of_empl }}</p>
+            <p>Salary: {{ Employee.salary }}</p>
+            <p>Chief: {{ Employee.chief }}</p>
+            <p>Hierarchy: {{ Employee.hierarchy }}</p>
+            {% if not Employee.photo %}
+                <p><img src="/media/images/nobody.jpg" width="150px"></p>
+            {% else %}
+                <p><img src="{{ Employee.photo.url }}" width="150px"></p>
+            {% endif %}
+        </div>
+        <div>
+            <a href={% url 'employeesapp:employee_update' pk=Employee.pk%}>Update inform</a><br>
+            <a href={% url 'employeesapp:employees_list' %}>Back to employees list</a>
+        </div>
+    </div>
+{% endblock %}

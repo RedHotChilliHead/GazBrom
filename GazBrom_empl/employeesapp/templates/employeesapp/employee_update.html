@@ -1,0 +1,21 @@
+{% extends "employeesapp/base.html" %}
+
+{% block title %}
+    Update inform
+{% endblock %}
+
+{% block body %}
+    <div class="fixed-container">
+        <h1>Update inform</h1>
+        <div>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-success">Update</button>
+            </form>
+        </div>
+        <div>
+            <a href={% url 'employeesapp:employee_details' pk=object.pk %}>Back to employee # {{ object.pk }}</a>
+        </div>
+    </div>
+{% endblock %}
