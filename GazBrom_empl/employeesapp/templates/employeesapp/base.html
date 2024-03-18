@@ -25,6 +25,7 @@
             justify-content: left;
             align-items: flex-start;
         }
+
         .examples > div {
             width: 420px;
         }
@@ -34,10 +35,43 @@
             margin-left: 15px;
             border: 1px solid lightgrey;
         }
+
+        .home {
+            padding-right: 300px;
+            font-size: 180%;
+        }
+        .nav {
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
-
+<div class="fixed-container">
+<div class="nav">
+<section>
+    <div class="home">
+        <a href={% url 'employeesapp:employees_list' %}>Employees</a><br>
+    </div>
+</section>
+<section>
+    {% if user.is_authenticated %}
+        <h2>Hello, {{ user.username }}</h2>
+        <div>
+            <a href={% url 'myauth:logout' %}>Logout</a><br>
+        </div>
+    {% else %}
+        <h2>User is anonymous</h2>
+        <div>
+            <a href={% url 'myauth:register' %}>Register</a><br>
+            <a href={% url 'myauth:login' %}>Log in to your account</a><br>
+        </div>
+    {% endif %}
+</section>
+</div>
+</div>
 {% block body %}
     Base body
 {% endblock %}

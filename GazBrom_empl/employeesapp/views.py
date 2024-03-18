@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, get_object_or_404
 from django.views import View
@@ -31,8 +33,7 @@ def employees_list(request: HttpRequest):
 
     return render(request, 'employeesapp/employees-list-2.html', context=context)
 
-
-class EmployeeDetailsView(View):
+class EmployeeDetailsView(LoginRequiredMixin, View):
     def get(self, request: HttpRequest, pk: int) -> HttpResponse:
         employee = get_object_or_404(Employee, pk=pk)
         context = {
@@ -40,7 +41,7 @@ class EmployeeDetailsView(View):
         }
         return render(request, 'employeesapp/employee-details.html', context=context)
 
-class EmployeeUpdateView(UpdateView):
+class EmployeeUpdateView(LoginRequiredMixin, UpdateView):
     model = Employee
     fields = "name", "position", "date_of_empl", "salary", "chief", "hierarchy", "photo"
     template_name_suffix = "_update"
