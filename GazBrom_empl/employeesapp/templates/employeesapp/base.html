@@ -40,40 +40,50 @@
             padding-right: 300px;
             font-size: 180%;
         }
+
         .nav {
             margin: 10px 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+
+        .links {
+            margin-left: 30px;
+        }
     </style>
 </head>
 <body>
 <div class="fixed-container">
-<div class="nav">
-<section>
-    <div class="home">
-        <a href={% url 'employeesapp:employees_list' %}>Employees</a><br>
+    <div class="nav">
+        <section>
+            <div class="home">
+                <a href={% url 'employeesapp:employees_list' %}>Employees</a>
+                <a class="links" href={% url 'employeesapp:employees_list_all' %}>ALL</a>
+                <a class="links" href={% url 'employeesapp:employee_create' %}>Create an employee profile</a>
+            </div>
+        </section>
+        <section>
+            {% if user.is_authenticated %}
+                <h2>Hello, {{ user.username }}</h2>
+                <div>
+                    <a href={% url 'myauth:logout' %}>Logout</a><br>
+                </div>
+            {% else %}
+                <h2>User is anonymous</h2>
+                <div>
+                    <a href={% url 'myauth:register' %}>Register</a><br>
+                    <a href={% url 'myauth:login' %}>Log in to your account</a><br>
+                </div>
+            {% endif %}
+        </section>
     </div>
-</section>
-<section>
-    {% if user.is_authenticated %}
-        <h2>Hello, {{ user.username }}</h2>
-        <div>
-            <a href={% url 'myauth:logout' %}>Logout</a><br>
-        </div>
-    {% else %}
-        <h2>User is anonymous</h2>
-        <div>
-            <a href={% url 'myauth:register' %}>Register</a><br>
-            <a href={% url 'myauth:login' %}>Log in to your account</a><br>
-        </div>
-    {% endif %}
-</section>
-</div>
 </div>
 {% block body %}
     Base body
+{% endblock %}
+
+{% block footer %}
 {% endblock %}
 
 </body>

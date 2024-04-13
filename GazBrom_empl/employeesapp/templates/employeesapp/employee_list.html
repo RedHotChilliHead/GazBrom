@@ -1,0 +1,95 @@
+{% extends "employeesapp/base.html" %}
+
+{% block title %}
+    Employees list
+{% endblock %}
+
+{% block body %}
+    <div class="fixed-container">
+        <h1>Employees list</h1>
+        <section>
+            <form action="{% url 'employeesapp:employees_list_all' %}" method="get">
+                <div class="input-group">
+                    <div class="form-outline">
+                        <input type="search" type="text" name="q" class="form-control" placeholder="Search"/>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </section>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col"><a href="?sort_by=name">Name</a></th>
+                <th scope="col"><a href="?sort_by=position">Position</a></th>
+                <th scope="col"><a href="?sort_by=chief">Chief</a></th>
+                <th scope="col"><a href="?sort_by=date_of_empl">Date of employment</a></th>
+                <th scope="col"><a href="?sort_by=salary">Salary</a></th>
+            </tr>
+            </thead>
+            <tbody>
+            {#            {% for employee in employees %}#}
+            {#                <tr>#}
+            {#                    <th scope="row">{{ employee.pk }}</th>#}
+            {#                    <td><a href="{% url 'employeesapp:employee_details' pk=employee.pk %}">{{ employee.name }}</a></td>#}
+            {#                    <td>{{ employee.position }}</td>#}
+            {#                    <td>{{ employee.chief }}</td>#}
+            {#                    <td>{{ employee.date_of_empl }}</td>#}
+            {#                    <td> {{ employee.salary }}</td>#}
+            {#                    <td>{% if not employee.photo %}#}
+            {#                        <p><img src="/media/images/nobody.jpg" width="100px"></p>#}
+            {#                    {% else %}#}
+            {#                        <p><img src="{{ employee.photo.url }}" width="100px"></p>#}
+            {#                    {% endif %}</td>#}
+            {#                </tr>#}
+            {#            {% endfor %}#}
+
+            {% for employee in page_obj %}
+                <tr>
+                    <th scope="row">{{ employee.pk }}</th>
+                    <td><a href="{% url 'employeesapp:employee_details' pk=employee.pk %}">{{ employee.name }}</a></td>
+                    <td>{{ employee.position }}</td>
+                    <td>{{ employee.chief }}</td>
+                    <td>{{ employee.date_of_empl }}</td>
+                    <td> {{ employee.salary }}</td>
+                    <td>{% if not employee.photo %}
+                        <p><img src="/media/images/nobody.jpg" width="100px"></p>
+                    {% else %}
+                        <p><img src="{{ employee.photo.url }}" width="100px"></p>
+                    {% endif %}</td>
+                </tr>
+            {% endfor %}
+
+
+            </tbody>
+        </table>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+
+                    {% if page_obj.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                    {% endif %}
+
+                    {% for p in page_obj.paginator.page_range %}
+                        {% if p == page_obj.number %}
+                            <li class="page-item active" aria-current="page"><a class="page-link"
+                                                                                href="?page={{ p }}">{{ p }}</a></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                    {% endif %}
+
+            </ul>
+        </nav>
+
+
+    </div>
+{% endblock %}

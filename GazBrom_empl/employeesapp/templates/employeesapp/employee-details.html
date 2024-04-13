@@ -22,6 +22,8 @@
         <div>
             <br>
             <a href={% url 'employeesapp:employee_update' pk=Employee.pk%}>Update inform</a><br>
+            <br>
+            <a href={% url 'employeesapp:employee_delete' pk=Employee.pk%}>Delete {{ Employee.name }}`s profile</a><br>
         </div>
     </div>
 {% endblock %}

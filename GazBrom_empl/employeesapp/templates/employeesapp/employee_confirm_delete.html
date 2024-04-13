@@ -1,0 +1,23 @@
+{% extends "employeesapp/base.html" %}
+
+{% block title %}
+    Confirm delete {{ object.name }}
+{% endblock %}
+
+{% block body %}
+    <div class="fixed-container">
+        <h1>Are you sure you want to delete {{ object.name }}`s profile?</h1>
+        <br>
+        <div>
+            <a href={% url 'employeesapp:employee_details' pk=object.pk %}>Back to employee # {{ object.pk }}</a>
+        </div>
+        <br>
+        <div>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-success">Delete</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
