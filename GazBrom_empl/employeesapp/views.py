@@ -7,9 +7,8 @@ from .models import Employee
 from django.http import HttpResponse, HttpRequest
 from django.views.generic import UpdateView, CreateView, DeleteView, ListView
 from django.db.models import Q
-from django.core.paginator import Paginator
 
-
+#не используется из-за слишком большого количества записей
 def employees_list(request: HttpRequest):
     context = {
         "employees1": [],
@@ -34,13 +33,49 @@ def employees_list(request: HttpRequest):
 
     return render(request, 'employeesapp/employees-list-2.html', context=context)
 
+class EmployeeListView2(LoginRequiredMixin, ListView):
+    """
+    Отображение Employee c древовидной структурой.
+    """
+    model = Employee
+    context_object_name = "employees"
+    # paginate_by = 30
+    template_name = 'employeesapp/employees-list-2.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        eee = Employee.objects.defer('date_of_empl', 'salary').all()
+        employees1 = []
+        employees2 = []
+        employees3 = []
+        employees4 = []
+        employees5 = []
+
+        for e in eee:
+            if e.hierarchy == 1:
+                employees1.append(e)
+            elif e.hierarchy == 2:
+                employees2.append(e)
+            elif e.hierarchy == 3:
+                employees3.append(e)
+            elif e.hierarchy == 4:
+                employees4.append(e)
+            elif e.hierarchy == 5:
+                employees5.append(e)
+        context['employees1'] = employees1
+        context['employees2'] = employees2
+        context['employees3'] = employees3[:30]
+        context['employees4'] = employees4[:30]
+        context['employees5'] = employees5[:-50]
+        return context
+
 class EmployeeListView(LoginRequiredMixin, ListView):
     """
     Отображение Employee без древовидной структуры.
     """
     model = Employee
     context_object_name = "employees"
-    paginate_by = 10
+    paginate_by = 30
     # template_name = 'employeesapp/employee_list.html'
 
     def get_queryset(self):

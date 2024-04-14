@@ -1,11 +1,12 @@
 from django.urls import path
 from .views import employees_list, EmployeeDetailsView, EmployeeUpdateView, EmployeeCreateView, EmployeeDeleteView, \
-    EmployeeListView
+    EmployeeListView, EmployeeListView2
 
 app_name = "employeesapp"
 
 urlpatterns = [
-    path('', employees_list, name='employees_list'),  # к функции можно будет обращаться по name
+    # path('', employees_list, name='employees_list'),  # к функции можно будет обращаться по name
+    path('', EmployeeListView2.as_view(), name='employees_list'),
     path('employees/all/', EmployeeListView.as_view(), name='employees_list_all'),
     path('employees/create/', EmployeeCreateView.as_view(), name='employee_create'),
     path('employees/<int:pk>/', EmployeeDetailsView.as_view(), name='employee_details'),
