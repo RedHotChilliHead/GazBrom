@@ -8,7 +8,8 @@ from django.http import HttpResponse, HttpRequest
 from django.views.generic import UpdateView, CreateView, DeleteView, ListView
 from django.db.models import Q
 
-#не используется из-за слишком большого количества записей
+
+# не используется из-за слишком большого количества записей
 def employees_list(request: HttpRequest):
     context = {
         "employees1": [],
@@ -32,6 +33,7 @@ def employees_list(request: HttpRequest):
             context["employees5"] += [e]
 
     return render(request, 'employeesapp/employees-list-2.html', context=context)
+
 
 class EmployeeListView2(LoginRequiredMixin, ListView):
     """
@@ -69,6 +71,7 @@ class EmployeeListView2(LoginRequiredMixin, ListView):
         context['employees5'] = employees5[:-50]
         return context
 
+
 class EmployeeListView(LoginRequiredMixin, ListView):
     """
     Отображение Employee без древовидной структуры.
@@ -104,11 +107,13 @@ class EmployeeListView(LoginRequiredMixin, ListView):
             queryset = Employee.objects.defer('hierarchy').all()
 
         return queryset.order_by(order_by_field)
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['q'] = self.request.GET.get('q')
         context['sort_by'] = self.request.GET.get('sort_by')
         return context
+
 
 class EmployeeDetailsView(LoginRequiredMixin, View):
     def get(self, request: HttpRequest, pk: int) -> HttpResponse:
@@ -118,31 +123,22 @@ class EmployeeDetailsView(LoginRequiredMixin, View):
         }
         return render(request, 'employeesapp/employee-details.html', context=context)
 
+
 class EmployeeUpdateView(LoginRequiredMixin, UpdateView):
     model = Employee
     fields = "name", "position", "date_of_empl", "salary", "chief", "hierarchy", "photo"
     template_name_suffix = "_update"
-    def get_success_url(self): #функция создаем ссылку с атрибутом pk, просто так pk не достать на этом уровне
+
+    def get_success_url(self):  # функция создаем ссылку с атрибутом pk, просто так pk не достать на этом уровне
         return reverse("employeesapp:employee_details", kwargs={"pk": self.object.pk})
 
-    # def post(self, request: HttpRequest, pk: int) -> HttpResponse:
-    #     employee = get_object_or_404(Employee, pk=pk)
-    #     context = {
-    #         "Employee": employee,
-    #     }
-    #     myfile = request.FILES["myfile"]
-    #     fs = FileSystemStorage(location='/media/images')
-    #     filename = fs.save(myfile.name, myfile)
-    #     print(f"Saved file: {filename}")
-    #     employee.photo = fs.url(filename)
-    #     # employee.photo.save(myfile.name, myfile)
-    #     return render(request, 'employeesapp/employee-details.html', context=context)
 
 class EmployeeCreateView(LoginRequiredMixin, CreateView):
     model = Employee
     fields = "name", "position", "date_of_empl", "salary", "chief", "hierarchy", "photo"
-    success_url = reverse_lazy("employeesapp:employees_list")  # ссылка на которую перейти после успешного создания сотрудника
+    success_url = reverse_lazy("employeesapp:employees_list")  # перейти после успешного создания сотрудника
     # шаблон должен быть обязательно называться employee_form (employee_form)
+
 
 class EmployeeDeleteView(DeleteView):
     model = Employee

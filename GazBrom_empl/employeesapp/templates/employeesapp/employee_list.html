@@ -11,7 +11,7 @@
             <form action="{% url 'employeesapp:employees_list_all' %}" method="get">
                 <div class="input-group">
                     <div class="form-outline">
-                        <input type="search" type="text" name="q" class="form-control" placeholder="Search"/>
+                        <input type="search" type="text" name="q" class="form-control" placeholder="Search" value="{{ request.GET.q }}"/>
                     </div>
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-search"></i>
@@ -23,11 +23,11 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col"><a href="?sort_by=name">Name</a></th>
-                <th scope="col"><a href="?sort_by=position">Position</a></th>
-                <th scope="col"><a href="?sort_by=chief">Chief</a></th>
-                <th scope="col"><a href="?sort_by=date_of_empl">Date of employment</a></th>
-                <th scope="col"><a href="?sort_by=salary">Salary</a></th>
+                <th scope="col"><a href="?sort_by=name{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Name</a></th>
+                <th scope="col"><a href="?sort_by=position{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Position</a></th>
+                <th scope="col"><a href="?sort_by=chief{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Chief</a></th>
+                <th scope="col"><a href="?sort_by=date_of_empl{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Date of employment</a></th>
+                <th scope="col"><a href="?sort_by=salary{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Salary</a></th>
             </tr>
             </thead>
             <tbody>
@@ -39,7 +39,7 @@
                     <td>{{ employee.position }}</td>
                     <td>{{ employee.chief }}</td>
                     <td>{{ employee.date_of_empl }}</td>
-                    <td> {{ employee.salary }}</td>
+                    <td>{{ employee.salary }}</td>
                     <td>{% if not employee.photo %}
                         <p><img src="/media/images/nobody.jpg" width="100px"></p>
                     {% else %}
@@ -47,30 +47,26 @@
                     {% endif %}</td>
                 </tr>
             {% endfor %}
-
-
             </tbody>
         </table>
 
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-
+            # Мы проверяем, есть ли в запросе параметры (request.GET.sort_by и request.GET.q), и если они есть, добавляем их к URL.
                 {% if page_obj.has_previous %}
-                    <li class="page-item"><a class="page-link"
-                                             href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Previous</a></li>
                 {% endif %}
 
                 {% for p in page_obj.paginator.page_range %}
                     {% if p == page_obj.number %}
-                        <li class="page-item active" aria-current="page"><a class="page-link"
-                                                                            href="?page={{ p }}">{{ p }}</a></li>
+                        <li class="page-item active" aria-current="page"><a class="page-link" href="?page={{ p }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ p }}</a></li>
                     {% else %}
-                        <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ p }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ p }}</a></li>
                     {% endif %}
                 {% endfor %}
 
                 {% if page_obj.has_next %}
-                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
                     </li>
                 {% endif %}
 

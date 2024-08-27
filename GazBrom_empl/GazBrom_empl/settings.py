@@ -88,10 +88,10 @@ WSGI_APPLICATION = 'GazBrom_empl.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "employees",
-        "USER": "django_admin",
+        "NAME": "employees_db",
+        "USER": "postgres",
         "PASSWORD": "admin",
-        "HOST": "localhost",
+        "HOST": "db",
         "PORT": "5432",
     }
 }
